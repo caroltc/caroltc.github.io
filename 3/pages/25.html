@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> ShowDoc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../../assert/highlight/default.min.css" rel="stylesheet">
+  <link href="../../css/index.css" rel="stylesheet">
+  <link href="../../css/page_style.css" rel="stylesheet">
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/showdoc.js?v=1.1"></script>
+</head>
+<body>
+<div class="body" role="main">
+  <div class="unit-body">
+    <div class="unit-inner unit-body-inner">
+      <div class="entry-content">
+        <article class="unit-article layout-post">
+          <div class="unit-inner unit-article-inner">
+            <div class="content">
+              <header>
+                <div class="unit-head">
+                  <div class="unit-inner unit-head-inner">
+                    <h1 class="h2 entry-title">为什么要用sed</h1>
+                  </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+              </header>
+              <div class="bd">
+                <div class="entry-content">
+                  <h2>给我把日志文件第30到50行取出来</h2>
+<p>要实现这个应该有多种方法，如果日志文件不大，直接用vim去查看也是ok。但是，实际服务器每天的日志可能动不动好几个G，所以很有必要知道如何快速得到数据，解决问题。
+先看实现方案:</p>
+<pre><code class="language-bash">sed -n '30,50p' /data0/test.log</code></pre>
+<p>这种情况是用的最多的，结合grep找出目标日志，再取需要的行数据。那么再看第二种情况，不是假想，是肯定会遇到的。</p>
+<h2>把日志中2016-09-09 14:47分推送过的订单全部找出来重推</h2>
+<p>如果这个时间段订单量有几百单，我想你应该犹豫是否拷贝出来找。那么怎么快速准确找到数据呢，这里有几个方案，如果是一分钟内的直接grep 就可以取到对应数据，那么如果是几分钟就麻烦了。取到数据之后就是组装命令，最后批量执行命令。对我而言，能用一行命令解决的事情绝不多写一行，前提是我有把握才行。废话不多说，看下使用sed的一行命令方案：</p>
+<pre><code class="language-bash">sed -n '/2016-09-09 14:47:01/,/2016-09-09 14:47:59/p' /data0/test.log | sed -n '/push order/p' | awk '{print $5}' | uniq | xargs -i  php artisan shipment:push {}</code></pre>
+<p>这里我先取出指定行数据，然后取出推送的订单，再通过awk获取指定列（也就是订单数据），最后xargs来组装并执行命令，如果需要记录日志还可以<code>&gt;&gt;</code>到日志文件</p>
+<h2>其他</h2>
+<p>当然 sed还有很好用的替换功能，之前用到<code>strace</code>来查看系统调用就用到了的</p>
+<pre><code class="language-bash">strace $(pidof php-fpm | sed 's/\([0-9]*\)/-p \1/g') -s 1024 -e sendto</code></pre>
+<p>所以由于sed的匹配和替换很好用，前面的命令其实还可以改成不用awk的方案:</p>
+<pre><code class="language-bash">sed -n '/2016-09-09 14:47:01/,/2016-09-09 14:47:59/p' /data0/test.log | sed -n '/push order/p' | sed 's/\(.*\) order \(.*\)/\2/g' | uniq | xargs -i  php artisan shipment:push {}</code></pre>
+<p>熟练掌握sed的这几种用法，一般的日志文件数据提取也是比较方便，一个命令肯定难完成复杂的任务，一般也会搭配使用，像awk,grep,tail,sed,xargs都是经常搭配起来用的</p>
+<h2>参考资料</h2>
+<blockquote>
+<p><a href="http://www.cnblogs.com/edwardlost/archive/2010/09/17/1829145.html" title="sed命令详解">sed命令详解</a>
+<a href="http://blog.chinaunix.net/uid-12453618-id-2935273.html" title="如何用Sed和正则表达式提取子字符串">如何用Sed和正则表达式提取子字符串</a></p>
+</blockquote>                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../assert/highlight/highlight.min.js"></script>
+<script src="../../js/index.js"></script>
+    <div style="display:none">
+    	    </div>
+  </body>
+</html>
