@@ -128,7 +128,7 @@ $(function(){
   //切换页面；
   function change_page(page_url){
       if(!page_url)return;
-      var html = '<iframe id="page-content" width="100%" scrolling="yes"  height="100%" frameborder="0" style=" overflow:visible; height:100%;" name="main"  seamless ="seamless"src="'+page_url+'"></iframe>';
+      var html = '<iframe id="page-content" width="100%" scrolling="no"  height="100%" frameborder="0" style=" overflow:visible; height:100%;" name="main"  seamless ="seamless"src="'+page_url+'"></iframe>';
       $(".iframe_content").html(html);
       iFrameHeight();
   }
@@ -160,8 +160,8 @@ function iFrameHeight() { 
   function calcPageHeight(doc) {
       var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
       var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
-      var height  = Math.max(cHeight, sHeight)
-      return height
+      var height  = Math.max(cHeight, sHeight);
+      return height+10;
   }
 
   var keyMap = {

@@ -6,20 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="../../assert/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../../assert/highlight/default.min.css" rel="stylesheet">
   <link href="../../css/index.css" rel="stylesheet">
+  <link href="../../css/page_style.css" rel="stylesheet">
   <script src="../../js/jquery.min.js"></script>
-  <script src="../../assert/bootstrap/js/bootstrap.min.js"></script>
   <script src="../../js/showdoc.js?v=1.1"></script>
 </head>
 <body>
-
-<h3 style="text-align: center;">$( ) 与 ` ` (反引号)的区别</h3>
-<!-- 这里开始是内容 -->
-<div class="" style="padding-top:10px;">
-
-  <pre><code class="language-bash">strace $(pidof php-fpm | sed 's/\([0-9]*\)/-p \1/g') -s 1024 -e sendto
+<div class="body" role="main">
+  <div class="unit-body">
+    <div class="unit-inner unit-body-inner">
+      <div class="entry-content">
+        <article class="unit-article layout-post">
+          <div class="unit-inner unit-article-inner">
+            <div class="content">
+              <header>
+                <div class="unit-head">
+                  <div class="unit-inner unit-head-inner">
+                    <h1 class="h2 entry-title">$( ) 与 ` ` (反引号)的区别</h1>
+                  </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+              </header>
+              <div class="bd">
+                <div class="entry-content">
+                  <pre><code class="language-bash">strace $(pidof php-fpm | sed 's/\([0-9]*\)/-p \1/g') -s 1024 -e sendto
 strace `pidof php-fpm | sed 's/\([0-9]*\)/-p \1/g'` -s 1024 -e sendto</code></pre>
 <p>这两行命令作用是，跟踪所有的php-fpm进程，并输出系统调用，我这里主要是获取php执行的SQL语句。这里使用了$()和``来执行命令效果一样，所以这里把这两个坐下对比。</p>
 <h3>在多层次的复合替换中，``须要额外的跳脱`( \` )处理，而 $( ) 则比较直观</h3>
@@ -120,12 +130,18 @@ a=5; b=7; ((a &lt; b)) 会得到   0 (true) 的返回值。
 !=：不等于</code></pre>
 <blockquote>
 <p>参考原文： <a href="http://blog.chinaunix.net/uid-14351756-id-2820651.html"><a href="http://blog.chinaunix.net/uid-14351756-id-2820651.html">http://blog.chinaunix.net/uid-14351756-id-2820651.html</a></a></p>
-</blockquote>
+</blockquote>                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
 </div>
+<script src="../../assert/highlight/highlight.min.js"></script>
+<script src="../../js/index.js"></script>
     <div style="display:none">
     	    </div>
   </body>
-</html> 
-
-<script src="../../assert/highlight/highlight.min.js"></script>
-<script src="../../js/index.js"></script>
+</html>
