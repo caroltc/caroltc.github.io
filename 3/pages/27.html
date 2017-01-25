@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> ShowDoc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../../assert/highlight/default.min.css" rel="stylesheet">
+  <link href="../../css/index.css" rel="stylesheet">
+  <link href="../../css/page_style.css" rel="stylesheet">
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/showdoc.js?v=1.1"></script>
+</head>
+<body>
+<div class="body" role="main">
+  <div class="unit-body">
+    <div class="unit-inner unit-body-inner">
+      <div class="entry-content">
+        <article class="unit-article layout-post">
+          <div class="unit-inner unit-article-inner">
+            <div class="content">
+              <header>
+                <div class="unit-head">
+                  <div class="unit-inner unit-head-inner">
+                    <h1 class="h2 entry-title">服务器的选择</h1>
+                  </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+              </header>
+              <div class="bd">
+                <div class="entry-content">
+                  <h2>自建还是租用</h2>
+<p>我毕业后入职的第一家公司，因为业务规模比较大，自己购买的服务器，大概是接近千台，所以有专门的运维部门去管理。后面去的另一家电商公司，就是租用的几台阿里云ECS，配置还蛮好的，基本项目leader自行管理。因此这个问题其实很好办，一切皆由成本决定。几台阿里云的ECS也可以处理上百万的日订单数据，因此很多中小企业也逐步采用云服务器，省去很多维护。想想之前公司机房搬迁，都是耗时几个月，业务系统太多得平滑切换，还要做异地双活，运维开发都累。所以业务量上不到那个级别，就不要折腾。</p>
+<h2>操作系统选择</h2>
+<p>我当然首推centos,6.5/7.0都可以，因为我平时都是ubuntu桌面开发，两者差距不大。redhat系和debian系应该企业用的最多，关键资料也多，你用个冷门的系统，出了莫名其妙的问题，还真不好处理。</p>
+<h2>配置选择</h2>
+<p>这个无非就是三个CPU,内存，磁盘，至于网络带框就根据你的访问量来好了。
+根据之前的经验来看，如果是缓存或者队列服务器(如部署memchache/redis)，内存搞大点；要是你部署的代码，访问量比较多，CPU弄好点；要是作为日志服务器，那就磁盘大点；还有一种文件服务器，磁盘和cpu必须要快，还好现在普遍用ssd，磁盘已经很快了。举个参考例子，之前我们部署仓库生产系统，差不多每天最多可以生产百万的包裹，服务器也就一台8核16G的，带宽好像是10M，一年成本也只有几千块。</p>
+<h2>数据库服务器的处理</h2>
+<p>如果直接用云数据库，那比较简单 。要是自己部署的数据库服务器，我建议是最好做一层代理。其实程序之间最好不要直接IP访问，最好直接在hosts里面配置别名，包括数据库的访问也是这样。对于mysql来说，用一层代理把端口转换掉也是很有必要的，虽然麻烦点，后面数据库迁移，服务器更换，你就知道好处了。域名代理很简单，直接改hosts文件，那么端口代理呢。对于PHP开发者来说，肯定nginx方向代理深入骨髓，确实是可以的，还可以做访问控制，当然也可以使用iptables来做端口转发。</p>
+<h2>要不要使用跳板机</h2>
+<p>我觉得一定要用跳板机去登录其他机器，一来可以很方便做权限集中控制，另一方面，通过跳板机实现内网和外网的转换访问也是很好的。跳板机的合理使用，对于开发排查问题来说真是十分重要。</p>                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../assert/highlight/highlight.min.js"></script>
+<script src="../../js/index.js"></script>
+    <div style="display:none">
+    	    </div>
+  </body>
+</html>
