@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> ShowDoc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../../assert/highlight/default.min.css" rel="stylesheet">
+  <link href="../../css/index.css" rel="stylesheet">
+  <link href="../../css/page_style.css" rel="stylesheet">
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/showdoc.js?v=1.1"></script>
+</head>
+<body>
+<div class="body" role="main">
+  <div class="unit-body">
+    <div class="unit-inner unit-body-inner">
+      <div class="entry-content">
+        <article class="unit-article layout-post">
+          <div class="unit-inner unit-article-inner">
+            <div class="content">
+              <header>
+                <div class="unit-head">
+                  <div class="unit-inner unit-head-inner">
+                    <h1 class="h2 entry-title">Error: xz compression not available</h1>
+                  </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+              </header>
+              <div class="bd">
+                <div class="entry-content">
+                  <p>centos6</p>
+<ol>
+<li>yum remove epel-release </li>
+<li>rm -rf /var/cache/yum/x86_64/6/epel </li>
+<li>wget <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></li>
+<li>rpm -ivh epel-release-6-8.noarch.rpm </li>
+<li>yum repolist</li>
+</ol>                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../assert/highlight/highlight.min.js"></script>
+<script src="../../js/index.js"></script>
+    <div style="display:none">
+    	    </div>
+  </body>
+</html>
