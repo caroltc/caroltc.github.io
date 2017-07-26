@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title> ShowDoc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../../assert/highlight/default.min.css" rel="stylesheet">
+  <link href="../../css/index.css" rel="stylesheet">
+  <link href="../../css/page_style.css" rel="stylesheet">
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/showdoc.js?v=1.1"></script>
+</head>
+<body>
+<div class="body" role="main">
+  <div class="unit-body">
+    <div class="unit-inner unit-body-inner">
+      <div class="entry-content">
+        <article class="unit-article layout-post">
+          <div class="unit-inner unit-article-inner">
+            <div class="content">
+              <header>
+                <div class="unit-head">
+                  <div class="unit-inner unit-head-inner">
+                    <h1 class="h2 entry-title">linux搭建ss多用户服务</h1>
+                  </div><!-- unit-inner -->
+                </div><!-- unit-head -->
+              </header>
+              <div class="bd">
+                <div class="entry-content">
+                  <h2>Ready</h2>
+<ul>
+<li>linux服务器
+<blockquote>
+<p>肯定国外的，不建议阿里云，很多国外厂商支持支付宝和paypal，个人用用推荐年付30美金左右的吧</p>
+</blockquote></li>
+</ul>
+<h2>Tool</h2>
+<h3>php&amp;mysql</h3>
+<ul>
+<li>install phpstudy</li>
+</ul>
+<pre><code>wget -c http://lamp.phpstudy.net/phpstudy.bin
+chmod +x phpstudy.bin    #权限设置
+./phpstudy.bin 　　　　#运行安装 (选择php5.5,nginx,数据库用户名密码默认root/root)</code></pre>
+<ul>
+<li>nginx rewrite</li>
+</ul>
+<pre><code>server {
+
+    listen  80;
+    server_name ss.test; #可绑定自己的域名,使用ss.test请务必去/etc/hosts添加一条 127.0.0.1  ss.test
+    set $root_path '/phpstudy/www/sspanel/public'; #注意确认路径
+    root $root_path;
+
+    index index.php index.html index.htm;
+
+    location / {
+            try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ^~ /config/ {
+        deny all;
+    }
+
+    location ~ \.php {
+
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index /index.php;
+
+        include /etc/nginx/fastcgi_params;
+
+        fastcgi_split_path_info       ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO       $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {
+        root $root_path;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+}</code></pre>
+<h3>sspanel</h3>
+<ul>
+<li>git clone git@github.com:caroltc/sspanel.git</li>
+<li>去mysql新建sspanel数据库,然后导入sspanel.sql</li>
+<li>
+<p>edit .env</p>
+<blockquote>
+<p>database 数据库配置(使用本地数据库配置)
+baseUrl(修改自己绑定的域名,没有就http://ss.test)</p>
+</blockquote>
+</li>
+<li>添加管理员
+<ul>
+<li>前台访问sspanel,注册一个用户</li>
+<li>去mysql修改user表这个用户is_admin字段，改成1</li>
+</ul></li>
+</ul>
+<h3>shadowsocks-rm</h3>
+<ul>
+<li>git clone git@github.com:caroltc/shadowsocks-rm.git</li>
+<li>安装拓展</li>
+</ul>
+<pre><code> pip install cymysql</code></pre>
+<ul>
+<li>
+<p>edit config.py</p>
+<blockquote>
+<p>数据库配置和MANAGE_PASS改成和sspanel .env muKey一致</p>
+</blockquote>
+</li>
+<li>start server</li>
+</ul>
+<pre><code>python servers.py 1&amp;2&gt; ss.log &amp;</code></pre>
+<h2>Use</h2>
+<ul>
+<li>sspanel后台-节点管理-添加节点，把当前服务器添加进去</li>
+<li>添加第一个用户会有一个默认端口，以后新用户端口自增，建议去数据库把第一个用户端口改成10000之后，然后更改防火墙设置，使端口能被外网访问</li>
+</ul>
+<pre><code>#开放10000-100100之间的端口
+iptables -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 10000:10100 -j ACCEPT</code></pre>
+<ul>
+<li>现在就可以使用ss客户端来连接了，祝好运</li>
+</ul>                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../assert/highlight/highlight.min.js"></script>
+<script src="../../js/index.js"></script>
+    <div style="display:none">
+    	    </div>
+  </body>
+</html>
