@@ -1486,6 +1486,12 @@ hr {
     *display: inline;
     float: right;
 }
-ul {margin-left: 20px;}
+h3 {margin-left: 20px;}
+ul {margin-left: 60px;}
 .unit-article ul ul{list-style: circle}
 li ul li{margin-left: 20px;}
+blockquote {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
